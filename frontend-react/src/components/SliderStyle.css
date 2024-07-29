@@ -1,0 +1,19 @@
+/* .single-thumb {
+  background: transparent;
+} */
+.single-thumb .range-slider__thumb[data-lower] {
+    width: 0;
+  }
+  .single-thumb .range-slider__range {
+    height: 0;
+  }
+.single-thumb .range-slider__thumb {
+  margin-bottom: 40re;
+  background: transparent;
+}
+
+.single-thumb .range-slider__thumb[data-upper] {
+  align-items: center;
+  background-image: url("../assets/caret-down.png");
+}
+  
