@@ -1,4 +1,3 @@
-// import * as d3 from "d3";
 import { useState, useEffect } from "react";
 import YearTimeline from "./YearTimeline";
 import HighchartsReact from "highcharts-react-official";
@@ -47,10 +46,12 @@ function PopChart() {
         title: {
             text: "",
             align: "left",
-            x: 24
+            x: 32,
+            y: 32
             },
         chart: {
-            height: 620
+            height: 720,
+            marginBottom: 52
         },
         legend: { enabled: false},
         xAxis: { type: "category" },
@@ -128,7 +129,7 @@ function PopChart() {
                 />
                 <LoadingStatusComponent/>
             </div>
-            <div className="m-4 mx-52 p-8 bg-white rounded-lg drop-shadow-lg">
+            <div className="m-4 mx-52 p-8 bg-gray-200 rounded-lg drop-shadow-lg">
                 <h1 className="font-extrabold text-2xl">Year {year}</h1>
                 <YearTimeline year={year} updateYear={updateYear} updateChart={chartUpdateOnce} />
                 <HighchartsReact

@@ -3,6 +3,7 @@ import playButtonIcon from "./buttonIcons/play-button.png"
 import pauseButtonIcon from "./buttonIcons/pause-button.png"
 import fastForwardIcon from "./buttonIcons/fast-forward.png"
 import DropDownButton from "./DropDownButtons"
+import "./styles/Style.css"
 
 function PlayAndSelectButton({
     setIsLoading,
@@ -43,11 +44,9 @@ function PlayAndSelectButton({
     const [isOptionOpened, setOpenOption] = useState(false)
     const [optionSelected, selectingOption] = useState(0)
     const [intervalFunc, setIntervalFunc] = useState(undefined)
-    const [currYear, updateCurrYear] = useState(1950)
     
     function clickPlay() {
         if (!isPlaying) {
-            // var intervalYear = currYear
             var intervalYear = year
             console.log("Playing...")
             const setInter = setInterval(() => {
@@ -56,14 +55,12 @@ function PlayAndSelectButton({
                     console.log(intervalFunc)
                     clearTimeout(setInter)
                     setIntervalFunc(undefined)
-                    // updateYear(intervalYear - 1)
                     console.log("Paused")
                 }
                 else {
                     updateChart({
                         series: [{data: dataMapping(intervalYear, populationData)}]
                     })
-                    // updateYear(intervalYear)
                     updateTimeline(intervalYear)
                     intervalYear++
                 }
@@ -80,24 +77,38 @@ function PlayAndSelectButton({
 
     function PlayButton() {
         const size = 64
-        if(isPlaying) {return <img width={size} height={size} src={pauseButtonIcon}/>}
-        else {return <img width={size} height={size} src={playButtonIcon}/>}
+        if(isPlaying) {return <img width={size} height={size} src={pauseButtonIcon}
+        title="Pause the race"/>}
+        else {return <img width={size} height={size} src={playButtonIcon}
+        title="Start the race"/>}
     }
 
     function forwardStepTenYears() {
+        if (year + 10 < 2021) {
+            updateTimeline(year + 10)
+            updateChart({
+                series: [{data: dataMapping(year + 10, populationData)}]
+            })
+        }
+        else {
+            updateTimeline(2021)
+            updateChart({
+                series: [{data: dataMapping(year, populationData)}]
+            })
+        }
 
     }
 
     function ForwardButton() {
         const size = 24 
-        // if(isPlaying) {return <img width={size} height={size} src={pauseButtonIcon}/>}
-        // else {return <img width={size} height={size} src={playButtonIcon}/>}
         return (
-            <button type="button" onClick={clickPlay}
-            className="min-w-8 min-h-8 my-auto
-            p-4 bg-blue-200 shadow-xl rounded-full
-            active:bg-blue-500
-            "
+            <button type="button" onClick={forwardStepTenYears}
+            className={`min-w-8 min-h-8 my-auto
+            p-4 shadow-xl rounded-full
+            ${(isPlaying || year == 2021) ? "bg-slate-500" : "bg-blue-200 active:bg-blue-500"}
+            `}
+            disabled={(isPlaying || year == 2021)}
+            title="Forward 10 years"
             >
                 <img width={size} height={size} src={fastForwardIcon}/>
             </button>
@@ -106,8 +117,9 @@ function PlayAndSelectButton({
 
     function PlayStatus() {
         const className = "my-auto font-extrabold text-center text-lg"
-        if(!isPlaying) {return <p className={className}>Paused</p>}
-        else {return <p className={className}>Playing</p>}
+        return (
+            <p className={className}> {isPlaying ? "Playing": "Paused"}</p>
+        )
     }
 
     function openOptions() {
@@ -172,15 +184,21 @@ function PlayAndSelectButton({
             <PlayStatus/>
             <div className="my-auto">
                 <button onClick={openOptions}
-                className="
-                p-4 bg-blue-600 text-white font-bold shadow-md rounded-md 
-                active:bg-blue-800 active:text-gray-400
-                "
+                className={`
+                p-4 text-white font-bold shadow-md rounded-md 
+                ${isPlaying ? "bg-gray-600 text-gray-300" :
+                "bg-blue-600 active:bg-blue-800 active:text-gray-400"}
+                `}
+                disabled={isPlaying}
+                title="Select demography data to race"
                 >
                     Select demography 
-                    <img src=""></img>
                 </button>
-                <div className="absolute grid grid-flow-row overflow-scroll max-h-56 max-w-80 z-10 bg-blue-300 drop-shadow-md rounded-md">
+                <div 
+                className={`absolute grid grid-flow-row overflow-scroll
+                max-h-56 max-w-80 z-10 bg-blue-300
+                drop-shadow-md rounded-md
+                dropdown-container ${isOptionOpened ? "active" : "inactive"}`}>
                     <Options fetchData={fetchData} openOption={selectOption} setYear={updateTimeline}/>
                 </div>
             </div>

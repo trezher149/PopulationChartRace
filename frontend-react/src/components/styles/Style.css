@@ -1,0 +1,20 @@
+:root {
+    --speed: 500ms;
+}
+
+/* .dropdown-container {
+} */
+
+.dropdown-container.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition: var(--speed) ease;
+}
+
+.dropdown-container.inactive {
+    opacity: 0;
+    /* visibility: hidden; */
+    transform: translateY(-20px);
+    transition: var(--speed) ease;
+}
