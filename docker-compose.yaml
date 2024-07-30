@@ -1,0 +1,28 @@
+services:
+  db:
+    container_name: mysqlserver
+    image: mysql:lts
+    environment: 
+      MYSQL_HOST: mysqlserver
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: countryPopAndDemo
+    ports:
+      - 3306:3306
+      - 33060:3307
+  dbAdmin:
+    depends_on:
+      - db
+    container_name: phpmyadminServer
+    image: phpmyadmin
+    ports:
+      - 8080:80
+    environment:
+      - PMA_HOST=mysqlserver
+      - PMA_PORT=3306
+  # backend:
+  #   container_name: backend-sql
+  #   build: ./backend-sql
+  #   ports:
+  #     - 7000:7000
+  #   depends_on:
+  #     - db

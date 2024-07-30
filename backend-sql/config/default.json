@@ -1,5 +1,6 @@
 {
     "dbConfig": {
+        "host": "localhost",
         "username": "root",
         "password": "password",
         "port": "3306",
