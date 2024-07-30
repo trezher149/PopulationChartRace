@@ -13,8 +13,8 @@ This is a Population chart race web application using node.js, mySQL, react.jsx 
 1. Run ``docker compose up`` to start mySQL and phpMyAdmin server, and wait until mySQL is completely started (no longer output logs).
 2. Run ``node dataInit.js`` in ``backend-sql`` folder, and wait until it finished running.
     - After that, open phpMyAdmin on ``http://localhost:8080/`` to check the database name ``countryPopAndDemo``
-          - username: root
-          - password: password
+        - username: root
+        - password: password
     - You can remove all the table in ``countryPopAndDemo`` if there are any problems while creating data.
 3. Run ``npm install`` and then run ``npm run dev`` in ``backend-sql``. The backend server will run on port ``7000``
 4. Run ``npm install`` and then run ``npm run dev`` in ``frontend-react``. The frontend server will run on port ``5173``
