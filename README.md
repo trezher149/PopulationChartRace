@@ -2,7 +2,7 @@
 
 This is a Population chart race web application using node.js, mySQL, react.jsx with Vite, and Highcharts
 
-![Demo]("./demo.gif")
+![Demo](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaXZhc216Mm5udGdlMnZmbzU5ZGVsczN3bzI3dXBmbXNuMTFtM2RyMCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/n3CtJBDw5SCNEHwPuC/giphy.gif)
 
 ## Requirements
 - node.js version 18.20.3 or later
