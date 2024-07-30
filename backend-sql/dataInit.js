@@ -30,7 +30,7 @@ fs.createReadStream('population-and-demography.csv').pipe(csv({}))
         for(var i = 2; i < initFields.length; i++) {
             field.push(initFields[i].replaceAll(" ", "_").toLowerCase())
         }
-        await Countries.addPopTables(field)
+        await Countries.addPopulationDemography(field)
         var insertingCountryName = ""
         var insertingCountryId = 0
         for(var i = 0; i < records.length; i++) {
@@ -42,10 +42,10 @@ fs.createReadStream('population-and-demography.csv').pipe(csv({}))
             if (isInExcludeWords) {continue}
             if (insertingCountryName != countryName) {
                 insertingCountryName = countryName
-                insertingCountryId = await Countries.insert(countryName)
+                insertingCountryId = await Countries.insertCountry(countryName)
             }
             for(var j = 0; j < field.length; j++) {
-                Countries.popInsertTable(
+                Countries.createPopulationDemographyTable(
                     field[j],
                     insertingCountryId,
                     parseInt(records[i]["Year"]),

@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize')
 const MySqlConnection = require('../services/mysqlConnectionService')
 
 
-class Countries extends MySqlConnection {
+class CountriesAndPopulationModel extends MySqlConnection {
 
     constructor(pop = {}) {
         super()
@@ -27,24 +27,23 @@ class Countries extends MySqlConnection {
         this.Populations = pop
     }
 
-    async insert(countryName) {
+    async insertCountry(countryName) {
         const country = await this.Country.create({country_name: countryName})
         return await country.country_id
     }
 
-    async popInsert(fields) {
+    async insertPopulation(fields) {
         await this.Populations.create(fields)
     }
 
-    async popInsertTable(field, countryId, year, population) {
+    async createPopulationDemographyTable(field, countryId, year, population) {
         console.log(this.Populations[field])
         var table = this.Populations[field]
         await table.create({country_id: countryId, year: year, population: population})
-        // await table.create({year: year, population: population})
     }
 
-    async findPopulation(popTable, year) {
-        return await this.Populations[popTable].findAll({
+    async findPopulationDemographic(demographic, year) {
+        return await this.Populations[demographic].findAll({
             where: {
                 year: year
             },
@@ -58,7 +57,6 @@ class Countries extends MySqlConnection {
             order: [
                 ["population", "DESC"],
             ],
-            // include: this.Country.country_name,
             limit: 12
         })
     }
@@ -71,34 +69,10 @@ class Countries extends MySqlConnection {
         return this.Populations
     }
 
-    addPopFields(addiFields) {
-        var fields = {
-            year: {
-                type: DataTypes.SMALLINT.UNSIGNED,
-            }
-        }
-
-        addiFields.forEach((field) => {
-            fields[field] = { type: DataTypes.BIGINT.UNSIGNED}
-        })
-
-        this.Populations = super.db.define(
-            "population_demographic",
-            fields,
-            {
-                freezeTableName: true,
-                timestamps: false
-            }
-        )
-
-        this.Country.hasMany(this.Populations, {foreignKey: "country_id"})
-        this.Populations.belongsTo(this.Country)
-    }
-
-    async addPopTables(addiFields) {
+    async addPopulationDemography(demographies) {
         this.Populations = {}
-        for(var i = 0; i < addiFields.length; i++) {
-            var field = addiFields[i]
+        for(var i = 0; i < demographies.length; i++) {
+            var field = demographies[i]
             var table = super.db.define(
                 field,
                 {
@@ -117,10 +91,9 @@ class Countries extends MySqlConnection {
             await table.sync({ force: true})
             table.belongsTo(this.Country)
         }
-        // await this.Country.sync({ force: true})
     }
 
-    async populatePopTable(fields) {
+    async selectPopulationDemographic(fields) {
         for(var i = 0; i < fields.length; i++) {
             var field = fields[i]
             var table = super.db.define(
@@ -143,14 +116,10 @@ class Countries extends MySqlConnection {
         }
     }
 
-    clone() {
-        return new Countries(this.Populations)
-    }
-
     closeConnection() {
         super.db.close()
     }
 
 }
 
-module.exports = Countries
+module.exports = CountriesAndPopulationModel

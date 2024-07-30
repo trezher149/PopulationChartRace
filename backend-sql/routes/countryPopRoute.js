@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const CountriesModel = require('../models/countries')
+const PopulationDemographicModel = require('../models/countries')
 
 tableLists = [
     "population",
@@ -28,7 +28,7 @@ tableLists = [
 ]
 
 router.get("/population", async (req, res) => {
-    const Countries = new CountriesModel()
+    const PopulationDemographic = new PopulationDemographicModel()
     const startYear = 1950
     const endYear = 2021
     var yearsData = {}
@@ -36,9 +36,9 @@ router.get("/population", async (req, res) => {
     const demographicType = tableLists[parseInt((req.query.demographicType))]
     try {
         if (demographicType == undefined) throw new TypeError
-        await Countries.populatePopTable([demographicType])
+        await PopulationDemographic.selectPopulationDemographic([demographicType])
         for(var i = startYear; i <= endYear; i++) {
-            const data = await Countries.findPopulation(demographicType, i)
+            const data = await PopulationDemographic.findPopulationDemographic(demographicType, i)
             const d = JSON.stringify(data, null, 2)
             yearsData[i] = JSON.parse(d) 
         }
