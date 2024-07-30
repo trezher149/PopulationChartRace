@@ -11,7 +11,7 @@ function App() {
     <div>
       <h1 className="m-8 text-center text-3xl font-bold
       ">
-        Population and Demography</h1>
+        Population growth per country, 1950 to 2021</h1>
       <PopChart />
     </div>
   )
