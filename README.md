@@ -27,6 +27,7 @@ You can configure server settings in ``backend-sql/config/default.json``, but do
     - [reload.png](https://www.flaticon.com/free-icon/reload_159657?term=reload&page=1&position=2&origin=search&related_id=159657) by Gregor Cresnar
 
 - Chart framework by Highcharts
+- 
 ![Highcharts](https://cdn.ourcodeworld.com/public-media/articles/articleocw-56476fe4f4050.png)
 
 ## License
